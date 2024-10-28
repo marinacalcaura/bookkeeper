@@ -86,7 +86,6 @@
               <include>**/*.cpp</include>
             </includes>
           </cpp>
-          <skipTests>${skipTests}</skipTests>
           <!-- skip by default, enabled in OS profiles -->
           <skip>true</skip>
         </configuration>
@@ -94,6 +93,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
+        <version>${maven-assembly-plugin.version}</version>
         <configuration>
           <descriptors>
             <descriptor>src/main/assembly/assembly.xml</descriptor>
@@ -121,7 +121,7 @@
       -->
       <id>jdk-without-javah</id>
       <activation>
-         <jdk>[10,)</jdk>
+        <jdk>[10,)</jdk>
       </activation>
       <build>
         <plugins>
@@ -130,27 +130,27 @@
             <artifactId>nar-maven-plugin</artifactId>
             <extensions>true</extensions>
             <executions>
-               <execution>
-               <!-- javah is not present in JDK10 onwards,
-                    you have to to use javac -h -->
-                  <id>default-nar-javah</id>
-                  <phase>none</phase>
-               </execution>
-             </executions>
+              <execution>
+                <!-- javah is not present in JDK10 onwards,
+                     you have to to use javac -h -->
+                <id>default-nar-javah</id>
+                <phase>none</phase>
+              </execution>
+            </executions>
           </plugin>
           <plugin>
-             <groupId>org.apache.maven.plugins</groupId>
-             <artifactId>maven-compiler-plugin</artifactId>
-             <configuration>
-                <compilerArgs>
-                  <!-- add -h flag to javac -->
-                  <compilerArg>-h</compilerArg>
-                  <compilerArg>${project.build.directory}/nar/javah-include</compilerArg>
-                </compilerArgs>
-             </configuration>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <compilerArgs>
+                <!-- add -h flag to javac -->
+                <compilerArg>-h</compilerArg>
+                <compilerArg>${project.build.directory}/nar/javah-include</compilerArg>
+              </compilerArgs>
+            </configuration>
           </plugin>
-            </plugins>
-        </build>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <id>mac</id>
@@ -187,6 +187,9 @@
             <extensions>true</extensions>
             <configuration>
               <skip>false</skip>
+              <linker>
+                <libSet>rt</libSet>
+              </linker>
             </configuration>
           </plugin>
         </plugins>
