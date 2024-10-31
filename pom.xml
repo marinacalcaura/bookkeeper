@@ -132,6 +132,7 @@
     <arquillian-cube.version>1.18.2</arquillian-cube.version>
     <arquillian-junit.version>1.8.0.Final</arquillian-junit.version>
     <codahale.metrics.version>3.0.1</codahale.metrics.version>
+    <pitest-maven-plugin.version>1.5.1</pitest-maven-plugin.version>
     <commons-cli.version>1.2</commons-cli.version>
     <commons-collections4.version>4.1</commons-collections4.version>
     <commons-codec.version>1.6</commons-codec.version>
@@ -856,12 +857,6 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- PIT dependency isw2 -->
-    <dependency>
-      <groupId>org.pitest</groupId>
-      <artifactId>pitest-maven</artifactId>
-      <version>1.14.0</version>
-    </dependency>
   </dependencies>
 
   <build>

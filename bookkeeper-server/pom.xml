@@ -154,6 +154,13 @@
       <scope>runtime</scope>
       <optional>true</optional>
     </dependency>
+
+    <!-- PIT dependency isw2 -->
+    <dependency>
+      <groupId>org.pitest</groupId>
+      <artifactId>pitest-maven</artifactId>
+      <version>1.14.0</version>
+    </dependency>
     <dependency>
       <!-- needed by ZooKeeper server -->
       <groupId>io.dropwizard.metrics</groupId>
@@ -426,7 +433,6 @@
     </profile>
 
     <!-- Ba-Dua Profile -->
-    <!--Ba-dua coverage-->
     <profile>
       <id>badua-coverage</id>
       <activation>
@@ -491,7 +497,42 @@
         </plugins>
       </build>
     </profile>
-
+    <!-- PIT Profile-->
+    <profile>
+      <id>pit-coverage</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>1.14.0</version>
+            <configuration>
+              <features>+CLASSLIMIT(limit[5])</features>
+              <verbose>true</verbose>
+              <targetClasses>
+                <!--param>org.apache.bookkeeper.client.BookKeeper</param-->
+                <param>org.apache.bookkeeper.bookie.BookieImpl</param>
+              </targetClasses>
+              <targetTests>
+                <param>org.apache.bookkeeper.bookie.TestBookieImpl</param>
+              </targetTests>
+            </configuration>
+            <executions>
+              <execution>
+                <id>Mutation Report</id>
+                <phase>test-compile</phase>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
 
     <!-- PIT profile isw2-->
     <!--profile>
