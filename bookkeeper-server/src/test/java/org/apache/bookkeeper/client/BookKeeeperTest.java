@@ -375,6 +375,95 @@ public class BookKeeeperTest {
         }
 
     }
+    @RunWith(value = Parameterized.class)
+    public static class DeleteLedgerTest {
 
+
+        private LocalBookKeeper bookKeeper;
+        private BookKeeper client;
+        private int ensSize;
+        private int writeQuorumSize;
+        private int ackQuorumSize;
+        private BookKeeper.DigestType digestType;
+        private byte[] passwd;
+        private Map<String, byte[]> customMetadata;
+
+        public DeleteLedgerTest(int ensSize, int writeQuorumSize, int ackQuorumSize, BookKeeper.DigestType digestType, byte[] passwd, Map<String, byte[]> customMetadata) {
+            this.ensSize = ensSize;
+            this.writeQuorumSize = writeQuorumSize;
+            this.ackQuorumSize = ackQuorumSize;
+            this.digestType = digestType;
+            this.passwd = passwd;
+            this.customMetadata = customMetadata;
+        }
+
+        @Parameterized.Parameters
+        public static Collection configure() {
+            return Arrays.asList(new Object[][]{
+                    {1, 0, 0, BookKeeper.DigestType.CRC32, "test".getBytes(), null}
+            });
+        }
+
+        @Before
+        public void startServer() throws Exception {
+            ServerConfiguration configuration = new ServerConfiguration();
+            configuration.setAllowLoopback(true);
+            bookKeeper = LocalBookKeeper.getLocalBookies("127.0.0.1", 34567, 3, true, configuration);
+            bookKeeper.start();
+            client = new BookKeeper("127.0.0.1:34567");
+        }
+
+        @After
+        public void closeServer() throws Exception {
+            if (client != null) {
+                try {
+                    client.close();
+                } catch (Exception e) {
+                    System.err.println("Failed to close BookKeeper client: " + e.getMessage());
+                }
+            }
+            if (bookKeeper != null) {
+                try {
+                    bookKeeper.close();
+                } catch (Exception e) {
+                    System.err.println("Failed to close LocalBookKeeper: " + e.getMessage());
+                }
+            }
+            Thread.sleep(500);
+        }
+
+
+        @Test
+        public void testDeleteLedgerSuccess() throws Exception {
+            LedgerHandle handle = client.createLedger(this.ensSize,this.writeQuorumSize,this.ackQuorumSize, BookKeeper.DigestType.CRC32C,this.passwd,this.customMetadata);
+            long ledgerId = handle.getId();
+            handle.close();
+
+            try {
+                client.deleteLedger(ledgerId);
+
+                CompletableFuture<Versioned<LedgerMetadata>> future =
+                        client.getLedgerManager().readLedgerMetadata(ledgerId);
+                SyncCallbackUtils.waitForResult(future);
+                Assert.fail("Expected BKNoSuchLedgerExistsOnMetadataServerException, but none was thrown.");
+            } catch (BKException.BKNoSuchLedgerExistsOnMetadataServerException e) {
+                Assert.assertTrue("Ledger deletion succeeded as expected.", true);
+            }
+        }
+
+        @Test
+        public void testDeleteLedgerFailure() {
+            long invalidLedgerId = -1; // Ledger ID non esistente
+            try {
+                client.deleteLedger(invalidLedgerId);
+                Assert.fail("Expected BKException, but none was thrown.");
+            } catch (BKException e) {
+                Assert.assertTrue("Correct exception was thrown for invalid ledger deletion.", true);
+            } catch (InterruptedException e) {
+                Assert.fail("Unexpected InterruptedException.");
+            }
+        }
+
+    }
 
 }
