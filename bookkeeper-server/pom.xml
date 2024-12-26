@@ -517,11 +517,12 @@
               <features>+CLASSLIMIT(limit[5])</features>
               <verbose>true</verbose>
               <targetClasses>
-                <!--param>org.apache.bookkeeper.client.BookKeeper</param-->
                 <param>org.apache.bookkeeper.net.NetworkTopologyImpl</param>
+                <param>org.apache.bookkeeper.client.BookKeeper</param>
               </targetClasses>
               <targetTests>
                 <param>org.apache.bookkeeper.net.NetworkTopologyImplTest</param>
+                <param>org.apache.bookkeeper.client.BookKeeeperTest</param>
               </targetTests>
             </configuration>
             <executions>
