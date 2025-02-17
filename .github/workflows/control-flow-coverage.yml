@@ -30,7 +30,7 @@ jobs:
     	  restore-keys: |
       	    ${{ runner.os }}-sonar-
 
-	- name: Cache Maven packages
+      - name: Cache Maven packages
   	uses: actions/cache@v3
   	with:
     	  path: ~/.m2
@@ -43,4 +43,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn clean verify -P jacoco-coverage -pl '!circe-checksum,!microbenchmarks' -U
+        run: mvn clean verify -P jacoco-coverage -U

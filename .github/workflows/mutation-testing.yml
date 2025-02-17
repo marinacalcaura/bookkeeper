@@ -32,7 +32,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Verify Bookkeeper
-        run: mvn clean verify -P pit-coverage -pl '!circe-checksum,!microbenchmarks' -U
+        run: mvn clean verify -P pit-coverage -U
 
       - name: Upload PIT report
         uses: actions/upload-artifact@v4

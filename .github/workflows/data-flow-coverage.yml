@@ -30,7 +30,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Verify Bookkeeper
-        run:  mvn clean verify -P badua-coverage -pl '!circe-checksum,!microbenchmarks' -U 
+        run:  mvn clean verify -P badua-coverage -U 
 
       - name: Upload ba-dua report
         uses: actions/upload-artifact@v4
