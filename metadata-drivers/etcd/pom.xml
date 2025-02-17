@@ -33,17 +33,22 @@
       <version>${project.version}</version>
     </dependency>
 
-     <dependency>
-      <groupId>io.etcd</groupId>
-      <artifactId>jetcd-core</artifactId>
-      <version>${etcd.version}</version>
+     <!--dependency>
+      <groupId>org.apache.bookkeeper.metadata.drivers</groupId>
+      <artifactId>jetcd-core-shaded</artifactId>
+      <version>${project.version}</version>
+      <classifier>shaded</classifier>
       <exclusions>
         <exclusion>
-          <groupId>io.grpc</groupId>
+          <groupId>io.etcd</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>io.vertx</groupId>
           <artifactId>*</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
+    </dependency-->
 
     <dependency>
       <groupId>io.grpc</groupId>
