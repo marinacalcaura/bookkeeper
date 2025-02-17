@@ -1435,6 +1435,7 @@
         </plugins>
       </build>
     </profile>
+
     <!--profile>
       <id>JacocoCoverage</id>
       <activation>

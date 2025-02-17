@@ -514,7 +514,7 @@
             <artifactId>pitest-maven</artifactId>
             <version>1.14.0</version>
             <configuration>
-              <features>+CLASSLIMIT(limit[5])</features>
+              <features>+CLASSLIMIT(limit[150])</features>
               <verbose>true</verbose>
               <targetClasses>
                 <param>org.apache.bookkeeper.net.NetworkTopologyImpl</param>

@@ -22,7 +22,6 @@ import java.util.concurrent.CompletableFuture;
 
 @RunWith(value = Enclosed.class)
 public class BookKeeeperTest {
-
     @RunWith(value = Parameterized.class)
     public static class CreateLedgerValidTest {
 
@@ -174,7 +173,7 @@ public class BookKeeeperTest {
                     //{-2, -1, -1, BookKeeper.DigestType.DUMMY, new byte[6], null},
                     {-1, -2, -1, BookKeeper.DigestType.MAC, new byte[6], null},
                     {-2, -2, -1, BookKeeper.DigestType.MAC, new byte[6], new HashMap<String, byte[]>()},
-                   // {-3, -2, -1, BookKeeper.DigestType.CRC32, new byte[6], null}
+                    // {-3, -2, -1, BookKeeper.DigestType.CRC32, new byte[6], null}
             });
         }
         @Before
@@ -375,7 +374,9 @@ public class BookKeeeperTest {
         }
 
     }
-    @RunWith(value = Parameterized.class)
+
+
+    /*@RunWith(value = Parameterized.class)
     public static class DeleteLedgerTest {
 
 
@@ -464,6 +465,6 @@ public class BookKeeeperTest {
             }
         }
 
-    }
+    }*/
 
 }

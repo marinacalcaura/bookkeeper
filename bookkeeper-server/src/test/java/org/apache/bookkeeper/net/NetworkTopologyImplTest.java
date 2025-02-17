@@ -34,10 +34,10 @@ public class NetworkTopologyImplTest {
             return Arrays.asList(new Object[][] {
 
                     {new NodeBase("127.0.0.1:5555", "/root"), false, null},
-                    {new NetworkTopologyImpl.InnerNode("127.0.0.1:4001", "/root/inner"), true, IllegalArgumentException.class},
+                    {new NetworkTopologyImpl.InnerNode("127.0.0.1:5556", "/root/inner"), true, IllegalArgumentException.class},
                     {null, false, null},
-                    //{new NodeBase("127.0.0.1:4002", "/root/127.0.0.1:3999"), true, IllegalArgumentException.class},
-                    {new NodeBase("127.0.0.1:4002", "/root/first"), true, NetworkTopologyImpl.InvalidTopologyException.class},
+                    {new NodeBase("127.0.0.1:5556", "/root/127.0.0.1:5555"), true, IllegalArgumentException.class},
+                    {new NodeBase("127.0.0.1:3999", "/root"), true, NetworkTopologyImpl.InvalidTopologyException.class},
 
             });
         }
@@ -49,13 +49,13 @@ public class NetworkTopologyImplTest {
 
             //lo aggiungo cosi cambio la profondità
             if (expectException && expectedExceptionType == NetworkTopologyImpl.InvalidTopologyException.class) {
-                String rack = node.getNetworkLocation() + "/rack/127.0.0.1:4003";
+                String rack = node.getNetworkLocation() + "/rack/127.0.0.1:3999";
                 sut.add(new NodeBase(rack));
             }
 
-            /*if (expectException && expectedExceptionType == IllegalArgumentException.class) {
+            if (expectException && expectedExceptionType == IllegalArgumentException.class) {
                 sut.add(new NodeBase("127.0.0.1:3999", "/root"));
-            }*/
+            }
         }
 
         @Test
@@ -155,8 +155,9 @@ public class NetworkTopologyImplTest {
 
                     {new NodeBase("127.0.0.1:4001", "/root/rack1"),new NodeBase("127.0.0.1:4002", "/root/rack1"), false, null},
                     {new NodeBase("127.0.0.1:4001", "/root/rack1"),new NodeBase("127.0.0.1:4002", "/root/rack2"), false, null},
-                    //{null, null, true, IllegalArgumentException.class},
-                    //{null,new NodeBase("127.0.0.1:4002", "/root/rack2"),true,IllegalArgumentException.class}
+                    {null, null, true, IllegalArgumentException.class},
+                    {null,new NodeBase("127.0.0.1:4002", "/root/rack2"),true,IllegalArgumentException.class},
+                    {new NodeBase("127.0.0.1:4002", "/root/rack2"),null,true,IllegalArgumentException.class}
 
             });
         }
@@ -216,8 +217,8 @@ public class NetworkTopologyImplTest {
 
                     {new NodeBase("127.0.0.1:4001", "/root/rack1"),new NodeBase("127.0.0.1:4001", "/root/rack1"), false, null},
                     {new NodeBase("127.0.0.1:4001", "/root/rack1"),new NodeBase("127.0.0.1:4002", "/root/rack2"), false, null},
-                    {new NodeBase("127.0.0.1:4001", "/root/rack1"),new NodeBase("127.0.0.1:4002", "/root/rack1"), false, null},
-                    //{null, null, true, NullPointerException.class},
+                    {new NodeBase("127.0.0.1:4001", "/rack1"),new NodeBase("127.0.0.1:4002", "/rack2"), false, null},
+                    {null, null, true, NullPointerException.class},
                     {null,new NodeBase("127.0.0.1:4002", "/root/rack2"),true,NullPointerException.class},
                     {new NodeBase("127.0.0.1:4002", "/root/rack2"),null,true,NullPointerException.class}
 
