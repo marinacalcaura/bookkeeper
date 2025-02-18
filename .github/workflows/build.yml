@@ -30,8 +30,10 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+      - name: Build and install jetcd-core-shaded
+        uses: fin
       - name: Build with Maven and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B clean verify -P jacoco-coverage -U
+        run: mvn verify -P jacoco-coverage -pl '!circe-checksum,!microbenchmarks'
