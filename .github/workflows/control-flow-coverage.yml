@@ -1,4 +1,4 @@
-name: Apache Bookkeeper CI/CD (Control flow coverage)
+name: Apache Zookeeper CI/CD (Control flow coverage)
 
 on:
   push:
